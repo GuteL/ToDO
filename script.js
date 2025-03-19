@@ -1,4 +1,9 @@
-const todo = [{ description: "test", checked: false }];
+const input = document.querySelector("#toDoEingabe");
+const add = document.querySelector("#toDoHinzufügen");
+
+
+
+const todo = [{ description: "input", checked: false }];
  
 // strings aus dem localstorage in js-objekte parsen
 // JSON.parse()
