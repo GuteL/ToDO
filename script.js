@@ -98,3 +98,60 @@ completeButton.addEventListener("click", () => {    // ToDo als erledigt markier
     neuLaden(); 
     
 });
+
+editButton.addEventListener("click", () => { // ToDo bearbeiten
+    if (todoItems.filter(item => item.checked).length === 1) {
+
+    if (!document.getElementById("saveButton") && !document.getElementById("cancelButton")) {
+    let newButton = document.createElement("button");
+    newButton.id = "saveButton";
+    newButton.innerHTML = "Speichern";
+    document.body.appendChild(newButton);
+
+    let cancelButton = document.createElement("button");
+    cancelButton.id = "cancelButton";
+    cancelButton.innerHTML = "Abbrechen";
+    document.body.appendChild(cancelButton);
+    
+    
+
+    newButton.addEventListener("click", () => {
+        const inputElementValue = inputToDo.value;
+        if(inputElementValue.trim() === "") {
+            newButton.remove();
+            cancelButton.remove();
+            return;
+        }
+
+        
+        for (let i=0; i<todoItems.length; i++) {
+            
+
+            if (todoItems[i].checked) {
+                todoItems[i].description = inputElementValue;
+            }
+        } 
+            
+          
+    
+        
+            localStorage.setItem("todo-app", JSON.stringify(todoItems));
+
+            newButton.remove();
+            cancelButton.remove();
+            inputToDo.value = ""; 
+            neuLaden(); 
+        
+    });
+
+    cancelButton.addEventListener("click", () => {
+            newButton.remove();
+            cancelButton.remove();
+            neuLaden(); 
+    });
+
+}}});
+
+    
+
+
