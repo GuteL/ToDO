@@ -97,12 +97,12 @@ deleteButton.addEventListener("click", () => { // Löschen des ToDos
 });
 
 completeButton.addEventListener("click", () => {    // ToDo als erledigt markieren (durchstreichen)
-    for (let i=0; i<todoItems.length; i++) {
-        if (todoItems[i].checked) {
-            todoItems[i].completed = true;
+    todoItems.forEach((item) => {
+        if (item.checked) {
+            item.completed = true;
         }
 
-    };
+    });
     localStorage.setItem("todo-app", JSON.stringify(todoItems));
     
     neuLaden(); 
@@ -134,13 +134,13 @@ editButton.addEventListener("click", () => { // ToDo bearbeiten
         }
 
         
-        for (let i=0; i<todoItems.length; i++) {
+        todoItems.forEach((item) => {
             
 
-            if (todoItems[i].checked) {
-                todoItems[i].description = inputElementValue;
+            if (item.checked) {
+                item.description = inputElementValue;
             }
-        } 
+        }); 
         
             localStorage.setItem("todo-app", JSON.stringify(todoItems));
 
