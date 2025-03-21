@@ -10,29 +10,29 @@ const todoItemsString = localStorage.getItem("todo-app");
 const todoItems = todoItemsString !== null ? JSON.parse(todoItemsString) : [];
 
 
-const neuLaden = () => {
+function neuLaden() {
         
         let container = document.getElementById("toDoListe"); // Variable für die Liste
-        container.innerHTML = ""; 
+        container.innerText = ""; 
 
-    for (let i = 0; i<todoItems.length ; i++) { //Schleife in der für jedes ToDo ein Listenpunkt erstellt wird und eine Checkbox 
+    todoItems.forEach((item) => { //Schleife in der für jedes ToDo ein Listenpunkt erstellt wird und eine Checkbox 
         let newElement = document.createElement("li"); // Liste wird erstellt
-        newElement.innerHTML = todoItems[i].description;
+        newElement.innerText = item.description;
         container.appendChild(newElement);
         
         let checkbox = document.createElement('input'); //Checkbox wird erstellt
             checkbox.type = "checkbox";
-            checkbox.checked = todoItems[i].checked;
+            checkbox.checked = item.checked;
             newElement.appendChild(checkbox);
 
-            if (todoItems[i].checked = true) {   //Checkbox soll beim neuladen der Seite keine Markierung haben bzw. im localStorage soll die Checked Eigenschaft nicht gespeichert werden
-                todoItems[i].checked = false;
+            if (item.checked = true) {   //Checkbox soll beim neuladen der Seite keine Markierung haben bzw. im localStorage soll die Checked Eigenschaft nicht gespeichert werden
+                item.checked = false;
                 localStorage.setItem("todo-app", JSON.stringify(todoItems));
                 checkbox.checked = false;
             }
         
         checkbox.addEventListener('change', () => { //Checkbox soll beim Klicken den Status ändern
-            todoItems[i].checked = checkbox.checked;
+            item.checked = checkbox.checked;
             localStorage.setItem("todo-app", JSON.stringify(todoItems));
         });
            
@@ -43,12 +43,22 @@ const neuLaden = () => {
             flaseElement.remove();
         }
 
-        if(todoItems[i].completed) {
+        if(item.completed) {
             newElement.style.textDecoration = "line-through";
         }
-    }
- 
+        });
+    
+    let complet = 0;
+    todoItems.forEach((item) => {
+        if (item.completed) {
+            complet++;
+        }
+    });
+    zaehler.innerText = complet + " von " + todoItems.length; 
+  
+
 }
+
     neuLaden();
     
 // addButton soll ToDos im localStorage hinzufügen und anschließend die View rendern 
@@ -69,7 +79,7 @@ addButton.addEventListener("click", () => {
         inputToDo.value = ""; // Leeren des Eingabefeldes nach dem Hinzufügen
 });
 
-document.addEventListener("DOMContentLoaded", neuLaden);
+// document.addEventListener("DOMContentLoaded", neuLaden);
 
 
 
@@ -105,12 +115,12 @@ editButton.addEventListener("click", () => { // ToDo bearbeiten
     if (!document.getElementById("saveButton") && !document.getElementById("cancelButton")) {
     let newButton = document.createElement("button");
     newButton.id = "saveButton";
-    newButton.innerHTML = "Speichern";
+    newButton.innerText = "Speichern";
     document.body.appendChild(newButton);
 
     let cancelButton = document.createElement("button");
     cancelButton.id = "cancelButton";
-    cancelButton.innerHTML = "Abbrechen";
+    cancelButton.innerText = "Abbrechen";
     document.body.appendChild(cancelButton);
     
     
@@ -131,9 +141,6 @@ editButton.addEventListener("click", () => { // ToDo bearbeiten
                 todoItems[i].description = inputElementValue;
             }
         } 
-            
-          
-    
         
             localStorage.setItem("todo-app", JSON.stringify(todoItems));
 
