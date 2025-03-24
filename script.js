@@ -17,13 +17,18 @@ function neuLaden() {
 
     todoItems.forEach((item) => { //Schleife in der für jedes ToDo ein Listenpunkt erstellt wird und eine Checkbox 
         let newElement = document.createElement("li"); // Liste wird erstellt
-        newElement.innerText = item.description;
-        container.appendChild(newElement);
         
+
         let checkbox = document.createElement('input'); //Checkbox wird erstellt
             checkbox.type = "checkbox";
             checkbox.checked = item.checked;
             newElement.appendChild(checkbox);
+
+        let text = document.createElement('text');
+        text.innerText = item.description;
+            newElement.appendChild(text);
+
+            container.appendChild(newElement);
 
             if (item.checked = true) {   //Checkbox soll beim neuladen der Seite keine Markierung haben bzw. im localStorage soll die Checked Eigenschaft nicht gespeichert werden
                 item.checked = false;
@@ -62,7 +67,12 @@ function neuLaden() {
     neuLaden();
     
 // addButton soll ToDos im localStorage hinzufügen und anschließend die View rendern 
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+        addButton.click();
+    }
 
+});
 
 addButton.addEventListener("click", () => {
      
@@ -78,10 +88,7 @@ addButton.addEventListener("click", () => {
     neuLaden();
         inputToDo.value = ""; // Leeren des Eingabefeldes nach dem Hinzufügen
 });
-
-// document.addEventListener("DOMContentLoaded", neuLaden);
-
-
+ 
 
 deleteButton.addEventListener("click", () => { // Löschen des ToDos
     for (let i=0; i<todoItems.length; i++) {
@@ -111,17 +118,18 @@ completeButton.addEventListener("click", () => {    // ToDo als erledigt markier
 
 editButton.addEventListener("click", () => { // ToDo bearbeiten
     if (todoItems.filter(item => item.checked).length === 1) {
+        let container = document.getElementById("bearbeit");
 
     if (!document.getElementById("saveButton") && !document.getElementById("cancelButton")) {
     let newButton = document.createElement("button");
     newButton.id = "saveButton";
     newButton.innerText = "Speichern";
-    document.body.appendChild(newButton);
+    container.appendChild(newButton);
 
     let cancelButton = document.createElement("button");
     cancelButton.id = "cancelButton";
     cancelButton.innerText = "Abbrechen";
-    document.body.appendChild(cancelButton);
+    container.appendChild(cancelButton);
     
     
 
