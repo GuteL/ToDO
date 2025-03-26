@@ -24,11 +24,32 @@ function neuLaden() {
             checkbox.checked = item.checked;
             newElement.appendChild(checkbox);
 
-        let text = document.createElement('text');
-        text.innerText = item.description;
-            newElement.appendChild(text);
+        let contentContainer = document.createElement('div'); 
+            contentContainer.classList.add("todo-content");
 
+        let text = document.createElement('text');
+            text.innerText = item.description;
+            contentContainer.appendChild(text);
+
+        let lineBreak = document.createElement('br');
+            newElement.appendChild(lineBreak);
+
+        let dateText = document.createElement('reihe');
+            dateText.innerText = `Ist bis zum ${item.date} zu erledigen`;
+            contentContainer.appendChild(dateText);
+
+            newElement.appendChild(contentContainer);
             container.appendChild(newElement);
+
+            newElement.addEventListener("click", (event) => {
+                if (event.target !== checkbox) {
+                    checkbox.checked = !checkbox.checked; 
+                    item.checked = checkbox.checked;
+                    localStorage.setItem("todo-app", JSON.stringify(todoItems)); 
+                }
+            });
+
+
 
             if (item.checked = true) {   //Checkbox soll beim neuladen der Seite keine Markierung haben bzw. im localStorage soll die Checked Eigenschaft nicht gespeichert werden
                 item.checked = false;
@@ -62,6 +83,8 @@ function neuLaden() {
     zaehler.innerText = complet + " von " + todoItems.length; 
   
 
+
+    inputToDo.value = "";
 }
 
     neuLaden();
@@ -77,11 +100,14 @@ document.addEventListener("keydown", (event) => {
 addButton.addEventListener("click", () => {
      
         const inputElementValue = inputToDo.value;
-        if (inputElementValue === "") { // Damit der local Storage nicht leer ist
+        const inputDate = document.getElementById('date').value;
+
+
+        if (inputElementValue === "" || inputDate === "" ) { // Damit der local Storage nicht leer ist
             return;
         }
         
-        const newToDo = { description: inputElementValue, checked: false, completed: false };
+        const newToDo = { description: inputElementValue, checked: false, completed: false, date: inputDate};
         todoItems.push(newToDo);
         localStorage.setItem("todo-app", JSON.stringify(todoItems));
 
@@ -120,6 +146,7 @@ editButton.addEventListener("click", () => { // ToDo bearbeiten
     if (todoItems.filter(item => item.checked).length === 1) {
         let container = document.getElementById("bearbeit");
 
+        
     if (!document.getElementById("saveButton") && !document.getElementById("cancelButton")) {
     let newButton = document.createElement("button");
     newButton.id = "saveButton";
@@ -131,6 +158,11 @@ editButton.addEventListener("click", () => { // ToDo bearbeiten
     cancelButton.innerText = "Abbrechen";
     container.appendChild(cancelButton);
     
+    todoItems.forEach((item => {
+        if (item.checked) {
+            inputToDo.value = item.description;
+        }
+    }));
     
 
     newButton.addEventListener("click", () => {
@@ -162,6 +194,7 @@ editButton.addEventListener("click", () => { // ToDo bearbeiten
     cancelButton.addEventListener("click", () => {
             newButton.remove();
             cancelButton.remove();
+            inputToDo.value = "";
             neuLaden(); 
     });
 
