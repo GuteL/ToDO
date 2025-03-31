@@ -76,7 +76,7 @@ body {
     margin-left: auto;
     right: 15%;
     min-width: 65px;
-    max-width: 150px;
+    max-width: 50%;
 }
 
 #saveButton {
