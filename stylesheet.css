@@ -82,7 +82,7 @@ body {
     min-width: 65px;
     max-width: 150px;
     left: 80%;
-    bottom: 480px;
+    bottom: 900px;
 }
 
 #saveButton {
@@ -96,7 +96,7 @@ body {
     max-width: 150px;
     margin-bottom: auto;
     left: 80%;
-    bottom: 480px;
+    bottom: 900px;
 }
 
 footer {

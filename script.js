@@ -75,10 +75,32 @@ neuLaden();
     
 // addButton soll ToDos im localStorage hinzufügen und anschließend die View rendern 
 document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && !document.getElementById("saveButton")) {
         addButton.click();
+    }});
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && document.getElementById("saveButton")) {
+        const inputElementValue = inputToDo.value;
+       
+        if(inputElementValue.trim() === "") {
+            newButton.remove();
+            cancelButton.remove();
+            return;
+        }
+        
+        todoItems.forEach((item) => {
+            
+            if (item.checked) {
+                item.description = inputElementValue;
+            }
+        })
+        
+            localStorage.setItem("todo-app", JSON.stringify(todoItems));
+            neuLaden();
     }
 });
+
 
 addButton.addEventListener("click", () => {
         const inputElementValue = inputToDo.value;
@@ -163,6 +185,7 @@ editButton.addEventListener("click", () => { // ToDo bearbeiten
             inputToDo.value = "";
             neuLaden(); 
     });
+
 }}});
 
     
