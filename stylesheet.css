@@ -148,6 +148,8 @@ li {
     background-color: aliceblue;
     max-width: 700px;
     word-wrap: break-word;
+    overflow-wrap: break-word; 
+    word-break: break-all;
     white-space: normal;
     list-style-type: none;
     padding: 10px;
@@ -157,8 +159,6 @@ li {
 li:hover {
     transform: scale(1.1); 
 }
-
-
 
 .todo-content {
     display: flex;
