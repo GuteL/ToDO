@@ -32,6 +32,8 @@ header h1 {
 
 body {
     background-color: rgb(38, 52, 70);
+    display: flex;
+    flex-direction: column;
 }
 
 #aufgaben{
@@ -42,14 +44,12 @@ body {
     z-index: 3;
     top: 30px;
     padding-bottom: 40px;
-    
-   
 }
 
 #toDoListe {
     position: relative;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     justify-self: center;
     z-index: 3;
 }
@@ -67,28 +67,36 @@ body {
     
 }
 
+#bearbeit {
+    display: flex;
+    flex-direction: column;
+}
+
 #cancelButton {
     display: flex;
-    position: absolute;
-    justify-content: center;
+    position: relative;
+    justify-content: center; 
     align-items: center;
-    top: 200px;
-    margin-left: auto;
-    right: 15%;
+    padding-left: 5px;
+    width: 20%;
     min-width: 65px;
-    max-width: 50%;
+    max-width: 150px;
+    left: 80%;
+    bottom: 480px;
 }
 
 #saveButton {
     display: flex;
-    position: absolute;
+    position: relative;
     justify-content: center;
     align-items: center;
-    top: 160px;
+    padding-left: 5px;
+    width: 20%;
     min-width: 65px;
     max-width: 150px;
-    margin-left: auto;
-    right: 15%;
+    margin-bottom: auto;
+    left: 80%;
+    bottom: 480px;
 }
 
 footer {
@@ -122,7 +130,6 @@ input {
     width: 15px;
     height: 15px;
     align-content: center;
-
 }
 
 #toDoEingabe {
@@ -132,8 +139,6 @@ input {
     background-color: aliceblue;
 }
 
-
-
 li {
     display: flex;
     font-size: 20px;
@@ -141,7 +146,6 @@ li {
     border: black solid 1px;
     margin-bottom: 10px;
     background-color: aliceblue;
-    /* color: whitesmoke; */
     max-width: 700px;
     word-wrap: break-word;
     white-space: normal;
@@ -188,3 +192,40 @@ reihe {
     margin-right: 50px;
 }
 
+@media (max-width: 720px) {
+    
+    
+    #hintergrund {
+        left: 0;
+        width: 100%;
+    }
+
+    #aufgaben {
+        flex-direction: column;
+        align-items: center; 
+    }
+    
+    #toDoEingabe {
+        width: auto;
+        min-width: 150px;
+        max-width: 30%;
+        font-size: 11px;
+    }
+
+    #main {
+        flex-direction: column;
+        position: relative;
+        height: 5%;
+    }
+
+    #saveButton, #cancelButton {
+        bottom: 10px;
+        position: relative;
+        margin-left: auto;
+        left: 0;
+        margin-right: auto;
+        width: 100%;
+        bottom: 100px;
+    }
+
+}

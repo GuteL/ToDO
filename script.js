@@ -5,8 +5,8 @@ const deleteButton = document.getElementById("toDoLoeschen");
 const completeButton = document.getElementById("toDoAbgeschlossen");
 const editButton = document.getElementById("toDoBearbeiten");
 
-const todoItemsString = localStorage.getItem("todo-app");
-const todoItems = todoItemsString !== null ? JSON.parse(todoItemsString) : [];
+const todoItemsString = localStorage.getItem("todo-app"); 
+let todoItems = todoItemsString !== null ? JSON.parse(todoItemsString) : [];
 
 function neuLaden() {
         let container = document.getElementById("toDoListe"); // Variable für die Liste
@@ -45,7 +45,7 @@ function neuLaden() {
                 }
             });
 
-            if (item.checked = true) {   //Checkbox soll beim neuladen der Seite keine Markierung haben bzw. im localStorage soll die Checked Eigenschaft nicht gespeichert werden
+            if (item.checked) {   //Checkbox soll beim neuladen der Seite keine Markierung haben bzw. im localStorage soll die Checked Eigenschaft nicht gespeichert werden
                 item.checked = false;
                 localStorage.setItem("todo-app", JSON.stringify(todoItems));
                 checkbox.checked = false;
@@ -66,17 +66,12 @@ function neuLaden() {
         }
         });
     
-    let complet = 0;
-    todoItems.forEach((item) => {
-        if (item.completed) {
-            complet++;
-        }
-    });
-    zaehler.innerText = complet + " von " + todoItems.length; 
-  
+    let complet = todoItems.filter(item => item.completed).length; 
+    zaehler.innerText = `${complet} von ${todoItems.length}`; 
+
     inputToDo.value = "";
 }
-    neuLaden();
+neuLaden();
     
 // addButton soll ToDos im localStorage hinzufügen und anschließend die View rendern 
 document.addEventListener("keydown", (event) => {
@@ -100,17 +95,12 @@ addButton.addEventListener("click", () => {
     neuLaden();
     inputToDo.value = ""; // Leeren des Eingabefeldes nach dem Hinzufügen
 });
- 
+
 deleteButton.addEventListener("click", () => { // Löschen des ToDos
-    for (let i=0; i<todoItems.length; i++) {
-        if (todoItems[i].checked === true) {
-            todoItems.splice(i, 1);
-            i--;
-        }
-    } 
-    localStorage.setItem("todo-app", JSON.stringify(todoItems));
-    
-    neuLaden();  
+        todoItems = todoItems.filter(item => !item.checked);
+
+        localStorage.setItem("todo-app", JSON.stringify(todoItems));
+        neuLaden(); 
 });
 
 completeButton.addEventListener("click", () => {    // ToDo als erledigt markieren (durchstreichen)
