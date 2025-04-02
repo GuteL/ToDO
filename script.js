@@ -77,7 +77,7 @@ function neuLaden() {
 
     inputToDo.value = "";
     // Datumsformat();
-}
+};
     
 function speichern() {
     const inputElementValue = inputToDo.value;
@@ -85,22 +85,22 @@ function speichern() {
     if(inputElementValue.trim() === "") {
         removeButton();
         return;
-    }
+    };
     
     todoItems.forEach((item) => {
         if (item.checked) {
             item.description = inputElementValue;
         }
-    })
+    });
 
         localStorage.setItem("todo-app", JSON.stringify(todoItems));
         neuLaden();
-}
+};
 
 function removeButton() {
     document.getElementById("saveButton").remove();
     document.getElementById("cancelButton").remove();
-}
+};
 
 // function Datumsformat() {
 //     let datum = toString(document.getElementById("date").value);
@@ -114,7 +114,7 @@ function removeButton() {
 document.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !document.getElementById("saveButton")) {
         addButton.click();
-    }});
+}});
 
 document.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && document.getElementById("saveButton")) {
