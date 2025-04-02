@@ -1,3 +1,4 @@
+/*----------------------------------------------Erstellen von Konstanten, sowie Ausführungen die immer passieren sollen----------------------------------------------*/
 const inputToDo = document.getElementById("toDoEingabe");
 const addButton = document.getElementById("toDoHinzufügen");
 
@@ -8,6 +9,10 @@ const editButton = document.getElementById("toDoBearbeiten");
 const todoItemsString = localStorage.getItem("todo-app"); 
 let todoItems = todoItemsString !== null ? JSON.parse(todoItemsString) : [];
 
+neuLaden();
+
+
+/*----------------------------------------------Funktionen----------------------------------------------*/
 function neuLaden() {
         let container = document.getElementById("toDoListe"); // Variable für die Liste
         container.innerText = ""; 
@@ -65,15 +70,41 @@ function neuLaden() {
             newElement.style.textDecoration = "line-through";
         }
         });
-    
+
+
     let complet = todoItems.filter(item => item.completed).length; 
     zaehler.innerText = `${complet} von ${todoItems.length}`; 
 
     inputToDo.value = "";
 }
-neuLaden();
     
-// addButton soll ToDos im localStorage hinzufügen und anschließend die View rendern 
+function speichern() {
+    const inputElementValue = inputToDo.value;
+       
+    if(inputElementValue.trim() === "") {
+        removeButton();
+        return;
+    }
+    
+    todoItems.forEach((item) => {
+        if (item.checked) {
+            item.description = inputElementValue;
+        }
+    })
+
+        localStorage.setItem("todo-app", JSON.stringify(todoItems));
+        neuLaden();
+}
+
+function removeButton() {
+    document.getElementById("saveButton").remove();
+    document.getElementById("cancelButton").remove();
+}
+
+
+
+
+/*----------------------------------------------Dokument Tasten-Funktionen----------------------------------------------*/
 document.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !document.getElementById("saveButton")) {
         addButton.click();
@@ -81,46 +112,46 @@ document.addEventListener("keydown", (event) => {
 
 document.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && document.getElementById("saveButton")) {
-        const inputElementValue = inputToDo.value;
-       
-        if(inputElementValue.trim() === "") {
-            newButton.remove();
-            cancelButton.remove();
-            return;
-        }
-        
-        todoItems.forEach((item) => {
-            
-            if (item.checked) {
-                item.description = inputElementValue;
-            }
-        })
-        
-            localStorage.setItem("todo-app", JSON.stringify(todoItems));
-            neuLaden();
+        removeButton();     
+        speichern();
+    }
+});
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && document.getElementById("saveButton")) {
+        removeButton();     
+        speichern();
+    }
+});
+
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !document.getElementById("saveButton")) {
+        neuLaden();
     }
 });
 
 
-addButton.addEventListener("click", () => {
-        const inputElementValue = inputToDo.value;
-        const inputDate = document.getElementById('date').value;
 
-        if (inputElementValue === "" || inputDate === "" ) { // Damit der local Storage nicht leer ist
-            return;
-        }
+
+/*----------------------------------------------Button-Funktionen----------------------------------------------*/
+addButton.addEventListener("click", () => {
+    const inputElementValue = inputToDo.value;
+    const inputDate = document.getElementById('date').value;
+
+    if (inputElementValue === "" || inputDate === "" ) { // Damit der local Storage nicht leer ist
+        return;
+    }
         
         const newToDo = { description: inputElementValue, checked: false, completed: false, date: inputDate};
         todoItems.push(newToDo);
         localStorage.setItem("todo-app", JSON.stringify(todoItems));
 
-    neuLaden();
-    inputToDo.value = ""; // Leeren des Eingabefeldes nach dem Hinzufügen
+        neuLaden();
+        inputToDo.value = ""; // Leeren des Eingabefeldes nach dem Hinzufügen
 });
 
 deleteButton.addEventListener("click", () => { // Löschen des ToDos
         todoItems = todoItems.filter(item => !item.checked);
-
         localStorage.setItem("todo-app", JSON.stringify(todoItems));
         neuLaden(); 
 });
@@ -130,10 +161,10 @@ completeButton.addEventListener("click", () => {    // ToDo als erledigt markier
         if (item.checked) {
             item.completed = true;
         }
-
     });
-    localStorage.setItem("todo-app", JSON.stringify(todoItems));
-    neuLaden();  
+
+        localStorage.setItem("todo-app", JSON.stringify(todoItems));
+        neuLaden();  
 });
 
 editButton.addEventListener("click", () => { // ToDo bearbeiten
@@ -142,14 +173,14 @@ editButton.addEventListener("click", () => { // ToDo bearbeiten
         
     if (!document.getElementById("saveButton") && !document.getElementById("cancelButton")) {
     let newButton = document.createElement("button");
-    newButton.id = "saveButton";
-    newButton.innerText = "Speichern";
-    container.appendChild(newButton);
+        newButton.id = "saveButton";
+        newButton.innerText = "Speichern";
+        container.appendChild(newButton);
 
     let cancelButton = document.createElement("button");
-    cancelButton.id = "cancelButton";
-    cancelButton.innerText = "Abbrechen";
-    container.appendChild(cancelButton);
+        cancelButton.id = "cancelButton";
+        cancelButton.innerText = "Abbrechen";
+        container.appendChild(cancelButton);
     
     todoItems.forEach((item => {
         if (item.checked) {
@@ -158,34 +189,17 @@ editButton.addEventListener("click", () => { // ToDo bearbeiten
     })); 
 
     newButton.addEventListener("click", () => {
-        const inputElementValue = inputToDo.value;
-        if(inputElementValue.trim() === "") {
-            newButton.remove();
-            cancelButton.remove();
-            return;
-        }
-        
-        todoItems.forEach((item) => {
-            
-            if (item.checked) {
-                item.description = inputElementValue;
-            }
-        }); 
-        
-            localStorage.setItem("todo-app", JSON.stringify(todoItems));
-            newButton.remove();
-            cancelButton.remove();
+            speichern();
+            removeButton();
             inputToDo.value = ""; 
             neuLaden(); 
     });
 
     cancelButton.addEventListener("click", () => {
-            newButton.remove();
-            cancelButton.remove();
+            removeButton();
             inputToDo.value = "";
             neuLaden(); 
     });
-
 }}});
 
     
