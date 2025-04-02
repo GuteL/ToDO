@@ -76,6 +76,7 @@ function neuLaden() {
     zaehler.innerText = `${complet} von ${todoItems.length}`; 
 
     inputToDo.value = "";
+    // Datumsformat();
 }
     
 function speichern() {
@@ -101,7 +102,12 @@ function removeButton() {
     document.getElementById("cancelButton").remove();
 }
 
+// function Datumsformat() {
+//     let datum = toString(document.getElementById("date").value);
 
+
+//     console.log(datum);
+// }
 
 
 /*----------------------------------------------Dokument Tasten-Funktionen----------------------------------------------*/
