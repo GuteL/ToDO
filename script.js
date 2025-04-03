@@ -36,7 +36,7 @@ function neuLaden() {
             newElement.appendChild(lineBreak);
 
         let dateText = document.createElement('reihe');
-            dateText.innerText = `Ist bis zum ${item.date} zu erledigen`;
+            dateText.innerText = `Ist bis zum ${Datumsformat(item.date)} zu erledigen`;
             contentContainer.appendChild(dateText);
 
             newElement.appendChild(contentContainer);
@@ -76,7 +76,6 @@ function neuLaden() {
     zaehler.innerText = `${complet} von ${todoItems.length}`; 
 
     inputToDo.value = "";
-    // Datumsformat();
 };
     
 function speichern() {
@@ -102,12 +101,14 @@ function removeButton() {
     document.getElementById("cancelButton").remove();
 };
 
-// function Datumsformat() {
-//     let datum = toString(document.getElementById("date").value);
+function Datumsformat(datum) {
+    let datumArray = datum.split("-");
+    let datumFormat = `${datumArray[2]}.${datumArray[1]}.${datumArray[0]}`
+
+    return datumFormat;
+}
 
 
-//     console.log(datum);
-// }
 
 
 /*----------------------------------------------Dokument Tasten-Funktionen----------------------------------------------*/
