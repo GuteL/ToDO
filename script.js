@@ -1,14 +1,12 @@
 /*----------------------------------------------Erstellen von Konstanten, sowie Ausführungen die immer passieren sollen----------------------------------------------*/
 const inputToDo = document.getElementById("toDoEingabe");
 const addButton = document.getElementById("toDoHinzufügen");
-
 const deleteButton = document.getElementById("toDoLoeschen");
 const completeButton = document.getElementById("toDoAbgeschlossen");
 const editButton = document.getElementById("toDoBearbeiten");
+const todoItemsString = localStorage.getItem("todo-app");
 
-const todoItemsString = localStorage.getItem("todo-app"); 
 let todoItems = todoItemsString !== null ? JSON.parse(todoItemsString) : [];
-
 neuLaden();
 
 
@@ -91,9 +89,7 @@ function speichern() {
             item.description = inputElementValue;
         }
     });
-
-        localStorage.setItem("todo-app", JSON.stringify(todoItems));
-        neuLaden();
+    neuLadenSpeichern();
 };
 
 function removeButton() {
@@ -104,12 +100,19 @@ function removeButton() {
 function Datumsformat(datum) {
     let datumArray = datum.split("-");
     let datumFormat = `${datumArray[2]}.${datumArray[1]}.${datumArray[0]}`
-
     return datumFormat;
 }
 
+function neuLadenSpeichern() {
+    localStorage.setItem("todo-app", JSON.stringify(todoItems));
+    neuLaden();
+}
 
-
+function removeLadenLeeren() {
+    removeButton();
+    inputToDo.value = "";
+    neuLaden(); 
+}
 
 /*----------------------------------------------Dokument Tasten-Funktionen----------------------------------------------*/
 document.addEventListener("keydown", (event) => {
@@ -134,7 +137,6 @@ document.addEventListener("keydown", (event) => {
 
 
 
-
 /*----------------------------------------------Button-Funktionen----------------------------------------------*/
 addButton.addEventListener("click", () => {
     const inputElementValue = inputToDo.value;
@@ -146,16 +148,13 @@ addButton.addEventListener("click", () => {
         
         const newToDo = { description: inputElementValue, checked: false, completed: false, date: inputDate};
         todoItems.push(newToDo);
-        localStorage.setItem("todo-app", JSON.stringify(todoItems));
-
-        neuLaden();
+        neuLadenSpeichern();
         inputToDo.value = ""; // Leeren des Eingabefeldes nach dem Hinzufügen
 });
 
 deleteButton.addEventListener("click", () => { // Löschen des ToDos
         todoItems = todoItems.filter(item => !item.checked);
-        localStorage.setItem("todo-app", JSON.stringify(todoItems));
-        neuLaden(); 
+        neuLadenSpeichern();
 });
 
 completeButton.addEventListener("click", () => {    // ToDo als erledigt markieren (durchstreichen)
@@ -164,9 +163,7 @@ completeButton.addEventListener("click", () => {    // ToDo als erledigt markier
             item.completed = true;
         }
     });
-
-        localStorage.setItem("todo-app", JSON.stringify(todoItems));
-        neuLaden();  
+    neuLadenSpeichern();  
 });
 
 editButton.addEventListener("click", () => { // ToDo bearbeiten
@@ -191,19 +188,11 @@ editButton.addEventListener("click", () => { // ToDo bearbeiten
     })); 
 
     newButton.addEventListener("click", () => {
-            speichern();
-            removeButton();
-            inputToDo.value = ""; 
-            neuLaden(); 
+        speichern();
+        removeLadenLeeren(); 
     });
 
     cancelButton.addEventListener("click", () => {
-            removeButton();
-            inputToDo.value = "";
-            neuLaden(); 
+        removeLadenLeeren(); 
     });
 }}});
-
-    
-
-
