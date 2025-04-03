@@ -113,29 +113,24 @@ function Datumsformat(datum) {
 
 /*----------------------------------------------Dokument Tasten-Funktionen----------------------------------------------*/
 document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" && !document.getElementById("saveButton")) {
+    if (event.key === "Enter") {
+        if (!document.getElementById("saveButton")) {
         addButton.click();
+        } else {
+            removeButton();     
+            speichern();
+        }
+    }   
+
+    if (event.key === "Escape") {
+        if (document.getElementById("saveButton")) {
+        removeButton();     
+        speichern();
+        } else {
+            neuLaden();
+        }
 }});
 
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Enter" && document.getElementById("saveButton")) {
-        removeButton();     
-        speichern();
-    }
-});
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && document.getElementById("saveButton")) {
-        removeButton();     
-        speichern();
-    }
-});
-
-document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !document.getElementById("saveButton")) {
-        neuLaden();
-    }
-});
 
 
 
